@@ -1,7 +1,9 @@
+import Nav from "./components/Nav.jsx";
+
 export default function App() {
   return (
-    <>
-      <h1 className="bg-amber-300">test</h1>
-    </>
+    <div className="p-2">
+      <Nav />
+    </div>
   );
 }
