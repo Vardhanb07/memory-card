@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Cell from "./Cell.jsx";
 
-export default function Board() {
+export default function Board({ totalScoreState, bestScoreState }) {
   const pokemon = [
     "wigglytuff",
     "bibarel",
@@ -16,16 +16,33 @@ export default function Board() {
     "machoke",
     "ho-oh",
   ];
+  const [score, setScore] = useState({
+    wigglytuff: false,
+    bibarel: false,
+    torterra: false,
+    shinx: false,
+    baltoy: false,
+    electivire: false,
+    stantler: false,
+    reuniclus: false,
+    slakoth: false,
+    mightyena: false,
+    machoke: false,
+    "ho-oh": false,
+  });
   const [cards, setCards] = useState(
     pokemon.map((poke) => {
-      return <Cell name={poke} />;
+      return <Cell name={poke} key={poke} />;
     })
   );
   return (
     <div
       className="grid grid-rows-3 grid-cols-4 gap-3  justify-items-center m-1"
       onClick={(e) => {
-        if (e.target.getAttribute("id") === "poke") {
+        if (
+          e.target.getAttribute("id") === "poke-img" ||
+          e.target.getAttribute("id") === "poke-name"
+        ) {
           let set = new Set();
           while (set.size < pokemon.length) {
             set.add(Math.floor(Math.random() * pokemon.length));
@@ -33,9 +50,47 @@ export default function Board() {
           const randomInd = [...set];
           setCards(
             randomInd.map((ind) => {
-              return <Cell name={pokemon[ind]} />;
+              return <Cell name={pokemon[ind]} key={pokemon[ind]} />;
             })
           );
+          let name = "";
+          if (e.target.getAttribute("id") === "poke-img") {
+            name = e.target.getAttribute("alt");
+          } else {
+            name = e.target.textContent;
+          }
+          let sum = 0;
+          let obj = { ...score };
+          if (!obj[name]) {
+            obj[name] = true;
+            setScore(obj);
+            for (let [key, value] of Object.entries(obj)) {
+              if (value) {
+                sum += 1;
+              }
+            }
+            totalScoreState[1](sum);
+          } else {
+            if (bestScoreState[0] < totalScoreState[0]) {
+              bestScoreState[1](totalScoreState[0]);
+            }
+            totalScoreState[1](0);
+            obj = {
+              wigglytuff: false,
+              bibarel: false,
+              torterra: false,
+              shinx: false,
+              baltoy: false,
+              electivire: false,
+              stantler: false,
+              reuniclus: false,
+              slakoth: false,
+              mightyena: false,
+              machoke: false,
+              "ho-oh": false,
+            };
+            setScore(obj);
+          }
         }
       }}
     >
