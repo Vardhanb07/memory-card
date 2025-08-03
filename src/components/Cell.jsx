@@ -18,7 +18,7 @@ export default function Cell({ name }) {
       .catch(() => {
         setSrc(brokenImg);
       });
-    () => {
+    return () => {
       setSrc(brokenImg);
     };
   }, [name]);
