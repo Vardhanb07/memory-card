@@ -37,7 +37,7 @@ export default function Board({ totalScoreState, bestScoreState }) {
   );
   return (
     <div
-      className="grid grid-rows-3 grid-cols-4 gap-3  justify-items-center m-1"
+      className="sm:grid sm:grid-cols-2 sm:grid-rows-6  lg:grid lg:grid-rows-3 lg:grid-cols-4 gap-3 justify-items-center m-1 flex flex-col"
       onClick={(e) => {
         if (
           e.target.getAttribute("id") === "poke-img" ||
